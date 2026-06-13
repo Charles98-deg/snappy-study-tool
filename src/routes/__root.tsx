@@ -83,7 +83,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         content:
           "Upload a PDF and instantly create summaries, key concepts, flashcards, quizzes, and simple explanations with AI.",
       },
-      { name: "author", content: "StudySprint AI" },
+      { name: "author", content: "SnappyStudy AI" },
       { property: "og:title", content: "SnappyStudy AI" },
       {
         property: "og:description",
