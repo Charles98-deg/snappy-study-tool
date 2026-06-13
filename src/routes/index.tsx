@@ -24,13 +24,13 @@ import { generateStudyKit, type StudyResults } from "@/lib/study.functions";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "StudySprint AI — AI PDF Study Assistant" },
+      { title: "SnappyStudy AI — AI PDF Study Assistant" },
       {
         name: "description",
         content:
           "Upload a PDF and instantly generate summaries, key concepts, flashcards, quizzes, and simple explanations.",
       },
-      { property: "og:title", content: "StudySprint AI — AI PDF Study Assistant" },
+      { property: "og:title", content: "SnappyStudy AI — AI PDF Study Assistant" },
       { property: "og:description", content: "Turn any PDF into a complete study kit in seconds." },
       { property: "og:type", content: "website" },
     ],
@@ -128,7 +128,7 @@ function Index() {
           <span className="grid size-9 place-items-center rounded-xl bg-primary text-primary-foreground shadow-[var(--shadow-button)]">
             <Zap className="size-5" />
           </span>
-          StudySprint <span className="text-primary">AI</span>
+          SnappyStudy <span className="text-primary">AI</span>
         </div>
         <div className="hidden items-center gap-2 text-sm font-medium text-muted-foreground sm:flex">
           <Sparkles className="size-4 text-primary" />
