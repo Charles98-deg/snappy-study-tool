@@ -19,6 +19,7 @@ import {
 
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { extractPdfText } from "@/lib/pdf.client";
 import { generateStudyKit, type StudyResults } from "@/lib/study.functions";
 
 export const Route = createFileRoute("/")({
@@ -65,23 +66,12 @@ function Index() {
     setResults(null);
     setStatus("extracting");
     try {
-      const pdfjs = await import("pdfjs-dist");
-      const workerModule = await import("pdfjs-dist/build/pdf.worker.mjs?url");
-      pdfjs.GlobalWorkerOptions.workerSrc = workerModule.default;
-      const pdf = await pdfjs.getDocument({ data: new Uint8Array(await nextFile.arrayBuffer()) })
-        .promise;
-      const pages: string[] = [];
-      for (let pageNumber = 1; pageNumber <= Math.min(pdf.numPages, 100); pageNumber += 1) {
-        const page = await pdf.getPage(pageNumber);
-        const content = await page.getTextContent();
-        pages.push(content.items.map((item) => ("str" in item ? item.str : "")).join(" "));
-      }
-      const extracted = pages.join("\n\n").trim();
+      const extracted = await extractPdfText(nextFile);
       if (extracted.length < 80)
         throw new Error(
           "This PDF has too little selectable text. Scanned image PDFs are not supported yet.",
         );
-      setText(extracted.slice(0, 60000));
+      setText(extracted);
       setStatus("ready");
     } catch (caught) {
       setStatus("idle");

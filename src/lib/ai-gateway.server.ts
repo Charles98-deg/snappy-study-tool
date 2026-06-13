@@ -4,6 +4,9 @@ export function createStudyAi(key: string) {
   return createOpenAICompatible({
     name: "lovable-ai",
     baseURL: "https://ai.gateway.lovable.dev/v1",
-    headers: { "Lovable-API-Key": key },
+    headers: {
+      "Lovable-API-Key": key,
+      "X-Lovable-AIG-SDK": "vercel-ai-sdk",
+    },
   });
 }
