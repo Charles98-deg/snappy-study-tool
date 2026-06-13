@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
-import { useCallback, useRef, useState } from "react";
+import { useCallback, useRef, useState, type ReactNode } from "react";
 import {
   BookOpen, BrainCircuit, CheckCircle2, ChevronRight, FileText, Layers3,
   Lightbulb, LoaderCircle, RotateCcw, Sparkles, UploadCloud, X, Zap,
@@ -49,7 +49,7 @@ function Index() {
     setStatus("extracting");
     try {
       const pdfjs = await import("pdfjs-dist/legacy/build/pdf.mjs");
-      const pdf = await pdfjs.getDocument({ data: new Uint8Array(await nextFile.arrayBuffer()), disableWorker: true }).promise;
+      const pdf = await pdfjs.getDocument({ data: new Uint8Array(await nextFile.arrayBuffer()) }).promise;
       const pages: string[] = [];
       for (let pageNumber = 1; pageNumber <= Math.min(pdf.numPages, 100); pageNumber += 1) {
         const page = await pdf.getPage(pageNumber);
@@ -181,6 +181,6 @@ function Results({ results, fileName, onReset }: { results: StudyResults; fileNa
   );
 }
 
-function ResultPanel({ children }: { children: React.ReactNode }) {
+function ResultPanel({ children }: { children: ReactNode }) {
   return <div className="mt-4 rounded-3xl border border-border bg-card p-5 shadow-soft sm:p-8">{children}</div>;
 }
