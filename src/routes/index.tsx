@@ -19,7 +19,7 @@ import {
 
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { extractPdfText } from "@/lib/pdf.client";
+import { extractPdfText } from "@/lib/pdf";
 import { generateStudyKit, type StudyResults } from "@/lib/study.functions";
 
 export const Route = createFileRoute("/")({

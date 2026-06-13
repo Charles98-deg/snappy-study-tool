@@ -1,12 +1,15 @@
-import { GlobalWorkerOptions, getDocument } from "pdfjs-dist";
-import pdfWorkerUrl from "pdfjs-dist/build/pdf.worker.mjs?url";
-
-GlobalWorkerOptions.workerSrc = pdfWorkerUrl;
+import { createClientOnlyFn } from "@tanstack/react-start";
 
 const MAX_PAGES = 100;
 const MAX_EXTRACTED_CHARACTERS = 300_000;
 
-export async function extractPdfText(file: File) {
+export const extractPdfText = createClientOnlyFn(async (file: File) => {
+  const [{ GlobalWorkerOptions, getDocument }, workerModule] = await Promise.all([
+    import("pdfjs-dist"),
+    import("pdfjs-dist/build/pdf.worker.mjs?url"),
+  ]);
+  GlobalWorkerOptions.workerSrc = workerModule.default;
+
   const pdf = await getDocument({ data: new Uint8Array(await file.arrayBuffer()) }).promise;
   const pages: string[] = [];
   let characterCount = 0;
@@ -28,4 +31,4 @@ export async function extractPdfText(file: File) {
   }
 
   return pages.join("\n\n").trim();
-}
+});
