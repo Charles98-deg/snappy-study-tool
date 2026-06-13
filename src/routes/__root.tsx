@@ -83,7 +83,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         content:
           "Upload a PDF and instantly create summaries, key concepts, flashcards, quizzes, and simple explanations with AI.",
       },
-      { name: "author", content: "SnappyStudy AI" },
+      { name: "author", content: "StudySprint AI" },
       { property: "og:title", content: "SnappyStudy AI" },
       {
         property: "og:description",
@@ -96,11 +96,11 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         name: "twitter:description",
         content: "Turn any PDF into a complete study kit in seconds.",
       },
-      { name: "description", content: "Turn any PDF into a personalized study kit in seconds. Generate summaries, flashcards, key concepts, quizzes, and simple explanations powered by AI." },
-      { property: "og:description", content: "Turn any PDF into a personalized study kit in seconds. Generate summaries, flashcards, key concepts, quizzes, and simple explanations powered by AI." },
-      { name: "twitter:description", content: "Turn any PDF into a personalized study kit in seconds. Generate summaries, flashcards, key concepts, quizzes, and simple explanations powered by AI." },
-      { property: "og:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/attachments/og-images/2b6285de-7cc2-4cad-b393-6aafa9a94d1b" },
-      { name: "twitter:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/attachments/og-images/2b6285de-7cc2-4cad-b393-6aafa9a94d1b" },
+      { name: "description", content: "SnappyStudy AI helps students turn PDFs into summaries, flashcards, quizzes, key concepts, and simple explanations in seconds." },
+      { property: "og:description", content: "SnappyStudy AI helps students turn PDFs into summaries, flashcards, quizzes, key concepts, and simple explanations in seconds." },
+      { name: "twitter:description", content: "SnappyStudy AI helps students turn PDFs into summaries, flashcards, quizzes, key concepts, and simple explanations in seconds." },
+      { property: "og:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/attachments/og-images/9fb5f8f8-80c5-4c04-a25a-0f34bcb3232b" },
+      { name: "twitter:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/attachments/og-images/9fb5f8f8-80c5-4c04-a25a-0f34bcb3232b" },
     ],
     links: [
       {
