@@ -65,7 +65,9 @@ function Index() {
     setResults(null);
     setStatus("extracting");
     try {
-      const pdfjs = await import("pdfjs-dist/legacy/build/pdf.mjs");
+      const pdfjs = await import("pdfjs-dist");
+      const workerModule = await import("pdfjs-dist/build/pdf.worker.mjs?url");
+      pdfjs.GlobalWorkerOptions.workerSrc = workerModule.default;
       const pdf = await pdfjs.getDocument({ data: new Uint8Array(await nextFile.arrayBuffer()) })
         .promise;
       const pages: string[] = [];
