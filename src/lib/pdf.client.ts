@@ -27,6 +27,5 @@ export async function extractPdfText(file: File) {
     characterCount += pageText.length;
   }
 
-  await pdf.destroy();
   return pages.join("\n\n").trim();
 }
