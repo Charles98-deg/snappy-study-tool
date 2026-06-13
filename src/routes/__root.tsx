@@ -77,25 +77,30 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "StudySprint AI — Turn PDFs Into Study Kits" },
+      { title: "SnappyStudy AI" },
       {
         name: "description",
         content:
           "Upload a PDF and instantly create summaries, key concepts, flashcards, quizzes, and simple explanations with AI.",
       },
       { name: "author", content: "StudySprint AI" },
-      { property: "og:title", content: "StudySprint AI — Turn PDFs Into Study Kits" },
+      { property: "og:title", content: "SnappyStudy AI" },
       {
         property: "og:description",
         content: "Upload a PDF and instantly create a complete AI-powered study kit.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:title", content: "StudySprint AI" },
+      { name: "twitter:title", content: "SnappyStudy AI" },
       {
         name: "twitter:description",
         content: "Turn any PDF into a complete study kit in seconds.",
       },
+      { name: "description", content: "Turn any PDF into a personalized study kit in seconds. Generate summaries, flashcards, key concepts, quizzes, and simple explanations powered by AI." },
+      { property: "og:description", content: "Turn any PDF into a personalized study kit in seconds. Generate summaries, flashcards, key concepts, quizzes, and simple explanations powered by AI." },
+      { name: "twitter:description", content: "Turn any PDF into a personalized study kit in seconds. Generate summaries, flashcards, key concepts, quizzes, and simple explanations powered by AI." },
+      { property: "og:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/attachments/og-images/2b6285de-7cc2-4cad-b393-6aafa9a94d1b" },
+      { name: "twitter:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/attachments/og-images/2b6285de-7cc2-4cad-b393-6aafa9a94d1b" },
     ],
     links: [
       {
