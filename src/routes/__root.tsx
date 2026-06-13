@@ -78,14 +78,24 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
       { title: "StudySprint AI — Turn PDFs Into Study Kits" },
-      { name: "description", content: "Upload a PDF and instantly create summaries, key concepts, flashcards, quizzes, and simple explanations with AI." },
+      {
+        name: "description",
+        content:
+          "Upload a PDF and instantly create summaries, key concepts, flashcards, quizzes, and simple explanations with AI.",
+      },
       { name: "author", content: "StudySprint AI" },
       { property: "og:title", content: "StudySprint AI — Turn PDFs Into Study Kits" },
-      { property: "og:description", content: "Upload a PDF and instantly create a complete AI-powered study kit." },
+      {
+        property: "og:description",
+        content: "Upload a PDF and instantly create a complete AI-powered study kit.",
+      },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
       { name: "twitter:title", content: "StudySprint AI" },
-      { name: "twitter:description", content: "Turn any PDF into a complete study kit in seconds." },
+      {
+        name: "twitter:description",
+        content: "Turn any PDF into a complete study kit in seconds.",
+      },
     ],
     links: [
       {
@@ -94,7 +104,10 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       },
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
-      { rel: "stylesheet", href: "https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@600;700;800&display=swap" },
+      {
+        rel: "stylesheet",
+        href: "https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@600;700;800&display=swap",
+      },
     ],
   }),
   shellComponent: RootShell,
