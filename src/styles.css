@@ -19,6 +19,8 @@
  */
 
 @theme inline {
+  --font-sans: "DM Sans", sans-serif;
+  --font-display: "Manrope", sans-serif;
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
@@ -62,26 +64,30 @@
 }
 
 :root {
-  --radius: 0.625rem;
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.129 0.042 264.695);
+  --radius: 0.875rem;
+  --background: oklch(0.978 0.01 240);
+  --foreground: oklch(0.22 0.055 254);
   --card: oklch(1 0 0);
-  --card-foreground: oklch(0.129 0.042 264.695);
+  --card-foreground: oklch(0.22 0.055 254);
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.129 0.042 264.695);
-  --primary: oklch(0.208 0.042 265.755);
-  --primary-foreground: oklch(0.984 0.003 247.858);
-  --secondary: oklch(0.968 0.007 247.896);
-  --secondary-foreground: oklch(0.208 0.042 265.755);
-  --muted: oklch(0.968 0.007 247.896);
-  --muted-foreground: oklch(0.554 0.046 257.417);
-  --accent: oklch(0.968 0.007 247.896);
-  --accent-foreground: oklch(0.208 0.042 265.755);
+  --primary: oklch(0.57 0.19 252);
+  --primary-foreground: oklch(0.99 0.005 240);
+  --secondary: oklch(0.91 0.055 215);
+  --secondary-foreground: oklch(0.3 0.09 242);
+  --muted: oklch(0.95 0.015 240);
+  --muted-foreground: oklch(0.5 0.035 250);
+  --accent: oklch(0.89 0.13 92);
+  --accent-foreground: oklch(0.31 0.07 70);
   --destructive: oklch(0.577 0.245 27.325);
   --destructive-foreground: oklch(0.984 0.003 247.858);
-  --border: oklch(0.929 0.013 255.508);
-  --input: oklch(0.929 0.013 255.508);
-  --ring: oklch(0.704 0.04 256.788);
+  --border: oklch(0.89 0.025 245);
+  --input: oklch(0.89 0.025 245);
+  --ring: oklch(0.57 0.19 252);
+  --surface-soft: oklch(0.96 0.025 220);
+  --success: oklch(0.63 0.15 158);
+  --shadow-soft: 0 20px 60px -30px oklch(0.3 0.08 250 / 28%);
+  --shadow-button: 0 10px 25px -10px oklch(0.45 0.2 252 / 60%);
   --chart-1: oklch(0.646 0.222 41.116);
   --chart-2: oklch(0.6 0.118 184.704);
   --chart-3: oklch(0.398 0.07 227.392);
@@ -140,5 +146,24 @@
   body {
     background-color: var(--color-background);
     color: var(--color-foreground);
+    font-family: var(--font-sans);
+    background-image: radial-gradient(circle at 8% 8%, color-mix(in oklab, var(--secondary) 55%, transparent), transparent 28%), radial-gradient(circle at 92% 20%, color-mix(in oklab, var(--accent) 25%, transparent), transparent 22%);
+    min-height: 100vh;
   }
+
+  h1, h2, h3 { font-family: var(--font-display); }
+}
+
+@utility font-display { font-family: var(--font-display); }
+@utility surface-soft { background-color: var(--surface-soft); }
+@utility text-success { color: var(--success); }
+@utility shadow-soft { box-shadow: var(--shadow-soft); }
+
+@keyframes float-in {
+  from { opacity: 0; transform: translateY(14px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .animate-float-in { animation: float-in 500ms ease-out both; }
 }
