@@ -25,7 +25,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { extractPdfText } from "@/lib/pdf";
 import { generateStudyKit, type StudyResults } from "@/lib/study.functions";
 
-export const Route = createFileRoute("/")({
+export const Route = createFileRoute("/_authenticated/")({
   head: () => ({
     meta: [
       { title: "SnappyStudy AI — AI PDF Study Assistant" },
