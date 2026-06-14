@@ -2,10 +2,13 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
 import { useCallback, useRef, useState, type ReactNode } from "react";
 import {
+  AlertTriangle,
+  BookMarked,
   BookOpen,
   BrainCircuit,
   CheckCircle2,
   ChevronRight,
+  ClipboardList,
   FileText,
   Layers3,
   Lightbulb,
