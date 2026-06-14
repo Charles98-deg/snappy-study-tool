@@ -297,10 +297,13 @@ function Results({
     { value: "summary", label: "Summary", icon: FileText },
     { value: "roadmap", label: "Roadmap", icon: Zap },
     { value: "concepts", label: "Concepts", icon: Lightbulb },
+    { value: "definitions", label: "Definitions", icon: BookMarked },
     { value: "cards", label: "Flashcards", icon: Layers3 },
     { value: "quiz", label: "Quiz", icon: CheckCircle2 },
-    { value: "simple", label: "Explain Simply", icon: BrainCircuit },
-    { value: "tips", label: "Study Tips", icon: Sparkles },
+    { value: "mistakes", label: "Mistakes", icon: AlertTriangle },
+    { value: "applications", label: "Applications", icon: Sparkles },
+    { value: "simple", label: "Simple Explanation", icon: BrainCircuit },
+    { value: "exam", label: "Exam Prep", icon: ClipboardList },
   ];
 
   const difficultyBadge = (d: "foundational" | "intermediate" | "advanced") => {
@@ -360,14 +363,6 @@ function Results({
               <p className="whitespace-pre-line leading-7 text-muted-foreground">
                 {results.executiveSummary}
               </p>
-              <div className="mt-6 rounded-2xl border border-border bg-muted/40 p-5">
-                <h4 className="mb-2 text-sm font-extrabold uppercase tracking-wider text-primary">
-                  Exam Prep Notes
-                </h4>
-                <p className="whitespace-pre-line text-sm leading-6 text-muted-foreground">
-                  {results.examPreparationNotes}
-                </p>
-              </div>
             </ResultPanel>
           </TabsContent>
 
@@ -415,20 +410,20 @@ function Results({
                   </article>
                 ))}
               </div>
+            </ResultPanel>
+          </TabsContent>
 
-              {results.essentialDefinitions.length > 0 && (
-                <div className="mt-8">
-                  <h3 className="mb-4 text-lg font-bold">Essential Definitions</h3>
-                  <dl className="grid gap-3 sm:grid-cols-2">
-                    {results.essentialDefinitions.map((def, index) => (
-                      <div key={index} className="rounded-2xl border border-border p-5">
-                        <dt className="font-bold text-primary">{def.term}</dt>
-                        <dd className="mt-1 text-sm leading-6 text-muted-foreground">{def.definition}</dd>
-                      </div>
-                    ))}
-                  </dl>
-                </div>
-              )}
+          <TabsContent value="definitions">
+            <ResultPanel>
+              <h3 className="mb-5 text-lg font-bold">Essential Definitions</h3>
+              <dl className="grid gap-3 sm:grid-cols-2">
+                {results.essentialDefinitions.map((def, index) => (
+                  <div key={index} className="rounded-2xl border border-border p-5">
+                    <dt className="font-bold text-primary">{def.term}</dt>
+                    <dd className="mt-1 text-sm leading-6 text-muted-foreground">{def.definition}</dd>
+                  </div>
+                ))}
+              </dl>
             </ResultPanel>
           </TabsContent>
 
@@ -483,6 +478,41 @@ function Results({
             </ResultPanel>
           </TabsContent>
 
+          <TabsContent value="mistakes">
+            <ResultPanel>
+              <h3 className="mb-5 text-lg font-bold">Common Mistakes</h3>
+              <div className="space-y-4">
+                {results.commonMistakes.map((item, index) => (
+                  <div key={index} className="rounded-2xl border border-border p-5">
+                    <p className="text-sm font-semibold text-rose-700 dark:text-rose-300">
+                      {item.mistake}
+                    </p>
+                    <p className="mt-2 text-sm leading-6 text-muted-foreground">
+                      <span className="font-semibold text-emerald-700 dark:text-emerald-300">Correction:</span>{" "}
+                      {item.correction}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            </ResultPanel>
+          </TabsContent>
+
+          <TabsContent value="applications">
+            <ResultPanel>
+              <h3 className="mb-5 text-lg font-bold">Practical Applications</h3>
+              <div className="space-y-4">
+                {results.practicalApplications.map((item, index) => (
+                  <div key={index} className="rounded-2xl border border-border p-5">
+                    <p className="text-sm font-semibold text-foreground">{item.scenario}</p>
+                    <p className="mt-2 text-sm leading-6 text-muted-foreground">
+                      {item.howConceptApplies}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            </ResultPanel>
+          </TabsContent>
+
           <TabsContent value="simple">
             <ResultPanel>
               <div className="mb-5 inline-flex rounded-xl bg-accent p-3 text-accent-foreground">
@@ -494,39 +524,15 @@ function Results({
             </ResultPanel>
           </TabsContent>
 
-          <TabsContent value="tips">
+          <TabsContent value="exam">
             <ResultPanel>
-              <div className="grid gap-6 lg:grid-cols-2">
-                <div>
-                  <h3 className="mb-4 text-lg font-bold">Common Mistakes</h3>
-                  <div className="space-y-3">
-                    {results.commonMistakes.map((item, index) => (
-                      <div key={index} className="rounded-2xl border border-border p-5">
-                        <p className="text-sm font-semibold text-rose-700 dark:text-rose-300">
-                          {item.mistake}
-                        </p>
-                        <p className="mt-2 text-sm leading-6 text-muted-foreground">
-                          <span className="font-semibold text-emerald-700 dark:text-emerald-300">Correction:</span>{" "}
-                          {item.correction}
-                        </p>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-                <div>
-                  <h3 className="mb-4 text-lg font-bold">Practical Applications</h3>
-                  <div className="space-y-3">
-                    {results.practicalApplications.map((item, index) => (
-                      <div key={index} className="rounded-2xl border border-border p-5">
-                        <p className="text-sm font-semibold text-foreground">{item.scenario}</p>
-                        <p className="mt-2 text-sm leading-6 text-muted-foreground">
-                          {item.howConceptApplies}
-                        </p>
-                      </div>
-                    ))}
-                  </div>
-                </div>
+              <div className="mb-5 inline-flex rounded-xl bg-primary p-3 text-primary-foreground">
+                <ClipboardList className="size-5" />
               </div>
+              <h3 className="mb-3 text-lg font-bold">Exam Preparation Notes</h3>
+              <p className="whitespace-pre-line text-base leading-8 text-muted-foreground">
+                {results.examPreparationNotes}
+              </p>
             </ResultPanel>
           </TabsContent>
         </Tabs>
