@@ -292,11 +292,27 @@ function Results({
 }) {
   const tabs = [
     { value: "summary", label: "Summary", icon: FileText },
+    { value: "roadmap", label: "Roadmap", icon: Zap },
     { value: "concepts", label: "Concepts", icon: Lightbulb },
     { value: "cards", label: "Flashcards", icon: Layers3 },
     { value: "quiz", label: "Quiz", icon: CheckCircle2 },
-    { value: "simple", label: "Explain simply", icon: BrainCircuit },
+    { value: "simple", label: "Explain Simply", icon: BrainCircuit },
+    { value: "tips", label: "Study Tips", icon: Sparkles },
   ];
+
+  const difficultyBadge = (d: "foundational" | "intermediate" | "advanced") => {
+    const colors = {
+      foundational: "bg-emerald-100 text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-300",
+      intermediate: "bg-amber-100 text-amber-700 dark:bg-amber-900/40 dark:text-amber-300",
+      advanced: "bg-rose-100 text-rose-700 dark:bg-rose-900/40 dark:text-rose-300",
+    };
+    return (
+      <span className={`rounded-full px-2.5 py-0.5 text-[10px] font-extrabold uppercase tracking-wider ${colors[d]}`}>
+        {d}
+      </span>
+    );
+  };
+
   return (
     <section id="results" className="border-t border-border bg-card/70 py-14">
       <div className="mx-auto max-w-6xl px-5 sm:px-8">
@@ -313,24 +329,67 @@ function Results({
             New PDF
           </Button>
         </div>
+
         <Tabs defaultValue="summary" className="mt-8">
           <div className="overflow-x-auto pb-2">
             <TabsList className="h-auto min-w-max gap-1 rounded-xl p-1.5">
               {tabs.map(({ value, label, icon: Icon }) => (
                 <TabsTrigger key={value} value={value} className="gap-2 px-4 py-2.5">
-                  <Icon />
+                  <Icon className="size-4" />
                   {label}
                 </TabsTrigger>
               ))}
             </TabsList>
           </div>
+
           <TabsContent value="summary">
             <ResultPanel>
+              <div className="mb-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+                <InfoBadge label="Discipline" value={results.documentIntelligence.discipline} />
+                <InfoBadge label="Document Type" value={results.documentIntelligence.documentType} />
+                <InfoBadge label="Complexity" value={results.documentIntelligence.complexityLevel} />
+                <InfoBadge
+                  label="Prerequisites"
+                  value={results.documentIntelligence.prerequisiteKnowledge.join(", ") || "None listed"}
+                />
+              </div>
+              <h3 className="mb-3 text-lg font-bold">Executive Summary</h3>
               <p className="whitespace-pre-line leading-7 text-muted-foreground">
-                {results.summary}
+                {results.executiveSummary}
               </p>
+              <div className="mt-6 rounded-2xl border border-border bg-muted/40 p-5">
+                <h4 className="mb-2 text-sm font-extrabold uppercase tracking-wider text-primary">
+                  Exam Prep Notes
+                </h4>
+                <p className="whitespace-pre-line text-sm leading-6 text-muted-foreground">
+                  {results.examPreparationNotes}
+                </p>
+              </div>
             </ResultPanel>
           </TabsContent>
+
+          <TabsContent value="roadmap">
+            <ResultPanel>
+              <h3 className="mb-5 text-lg font-bold">Learning Roadmap</h3>
+              <div className="space-y-4">
+                {results.learningRoadmap.map((step) => (
+                  <div
+                    key={step.step}
+                    className="flex gap-4 rounded-2xl border border-border p-5"
+                  >
+                    <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-primary text-xs font-extrabold text-primary-foreground">
+                      {step.step}
+                    </span>
+                    <div>
+                      <h4 className="font-bold">{step.concept}</h4>
+                      <p className="mt-1 text-sm leading-6 text-muted-foreground">{step.whyThisFirst}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </ResultPanel>
+          </TabsContent>
+
           <TabsContent value="concepts">
             <ResultPanel>
               <div className="grid gap-4 sm:grid-cols-2">
@@ -344,11 +403,32 @@ function Results({
                     <p className="mt-2 text-sm leading-6 text-muted-foreground">
                       {item.explanation}
                     </p>
+                    <div className="mt-3 rounded-xl bg-emerald-50 p-3 text-xs leading-5 text-emerald-800 dark:bg-emerald-950/30 dark:text-emerald-200">
+                      <strong>Why it matters:</strong> {item.whyItMatters}
+                    </div>
+                    <div className="mt-2 rounded-xl bg-rose-50 p-3 text-xs leading-5 text-rose-800 dark:bg-rose-950/30 dark:text-rose-200">
+                      <strong>Watch out:</strong> {item.commonMisconception}
+                    </div>
                   </article>
                 ))}
               </div>
+
+              {results.essentialDefinitions.length > 0 && (
+                <div className="mt-8">
+                  <h3 className="mb-4 text-lg font-bold">Essential Definitions</h3>
+                  <dl className="grid gap-3 sm:grid-cols-2">
+                    {results.essentialDefinitions.map((def, index) => (
+                      <div key={index} className="rounded-2xl border border-border p-5">
+                        <dt className="font-bold text-primary">{def.term}</dt>
+                        <dd className="mt-1 text-sm leading-6 text-muted-foreground">{def.definition}</dd>
+                      </div>
+                    ))}
+                  </dl>
+                </div>
+              )}
             </ResultPanel>
           </TabsContent>
+
           <TabsContent value="cards">
             <ResultPanel>
               <div className="grid gap-4 sm:grid-cols-2">
@@ -357,10 +437,13 @@ function Results({
                     key={index}
                     className="group min-h-40 rounded-2xl border border-border bg-background p-5 transition-transform hover:-translate-y-1"
                   >
-                    <p className="text-xs font-bold uppercase tracking-wider text-primary">
-                      Question {index + 1}
-                    </p>
-                    <h3 className="mt-3 font-bold">{card.front}</h3>
+                    <div className="mb-3 flex items-center justify-between">
+                      <p className="text-xs font-bold uppercase tracking-wider text-primary">
+                        Card {index + 1}
+                      </p>
+                      {difficultyBadge(card.difficulty)}
+                    </div>
+                    <h3 className="font-bold">{card.front}</h3>
                     <div className="mt-4 border-t border-border pt-3 text-sm leading-6 text-muted-foreground">
                       {card.back}
                     </div>
@@ -369,6 +452,7 @@ function Results({
               </div>
             </ResultPanel>
           </TabsContent>
+
           <TabsContent value="quiz">
             <ResultPanel>
               <div className="space-y-5">
@@ -377,6 +461,7 @@ function Results({
                     <summary className="cursor-pointer list-none font-bold">
                       <span className="mr-2 text-primary">{index + 1}.</span>
                       {item.question}
+                      <span className="ml-3 inline-block">{difficultyBadge(item.difficulty)}</span>
                     </summary>
                     <div className="mt-4 grid gap-2 sm:grid-cols-2">
                       {item.options.map((option) => (
@@ -394,19 +479,67 @@ function Results({
               </div>
             </ResultPanel>
           </TabsContent>
+
           <TabsContent value="simple">
             <ResultPanel>
               <div className="mb-5 inline-flex rounded-xl bg-accent p-3 text-accent-foreground">
                 <BrainCircuit />
               </div>
               <p className="whitespace-pre-line text-base leading-8 text-muted-foreground">
-                {results.explainLike15}
+                {results.beginnerExplanation}
               </p>
+            </ResultPanel>
+          </TabsContent>
+
+          <TabsContent value="tips">
+            <ResultPanel>
+              <div className="grid gap-6 lg:grid-cols-2">
+                <div>
+                  <h3 className="mb-4 text-lg font-bold">Common Mistakes</h3>
+                  <div className="space-y-3">
+                    {results.commonMistakes.map((item, index) => (
+                      <div key={index} className="rounded-2xl border border-border p-5">
+                        <p className="text-sm font-semibold text-rose-700 dark:text-rose-300">
+                          {item.mistake}
+                        </p>
+                        <p className="mt-2 text-sm leading-6 text-muted-foreground">
+                          <span className="font-semibold text-emerald-700 dark:text-emerald-300">Correction:</span>{" "}
+                          {item.correction}
+                        </p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+                <div>
+                  <h3 className="mb-4 text-lg font-bold">Practical Applications</h3>
+                  <div className="space-y-3">
+                    {results.practicalApplications.map((item, index) => (
+                      <div key={index} className="rounded-2xl border border-border p-5">
+                        <p className="text-sm font-semibold text-foreground">{item.scenario}</p>
+                        <p className="mt-2 text-sm leading-6 text-muted-foreground">
+                          {item.howConceptApplies}
+                        </p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
             </ResultPanel>
           </TabsContent>
         </Tabs>
       </div>
     </section>
+  );
+}
+
+function InfoBadge({ label, value }: { label: string; value: string }) {
+  return (
+    <div className="rounded-xl border border-border bg-muted/40 p-3">
+      <p className="text-[10px] font-extrabold uppercase tracking-wider text-muted-foreground">
+        {label}
+      </p>
+      <p className="mt-1 text-sm font-semibold leading-tight">{value}</p>
+    </div>
   );
 }
 
