@@ -1,4 +1,5 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { useQueryClient } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
 import { useCallback, useRef, useState, type ReactNode } from "react";
 import {
@@ -13,6 +14,7 @@ import {
   Layers3,
   Lightbulb,
   LoaderCircle,
+  LogOut,
   RotateCcw,
   Sparkles,
   UploadCloud,
@@ -24,8 +26,9 @@ import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { extractPdfText } from "@/lib/pdf";
 import { generateStudyKit, type StudyResults } from "@/lib/study.functions";
+import { supabase } from "@/integrations/supabase/client";
 
-export const Route = createFileRoute("/")({
+export const Route = createFileRoute("/_authenticated/")({
   head: () => ({
     meta: [
       { title: "SnappyStudy AI — AI PDF Study Assistant" },
@@ -43,6 +46,9 @@ export const Route = createFileRoute("/")({
 });
 
 function Index() {
+  const { user } = Route.useRouteContext();
+  const navigate = useNavigate();
+  const queryClient = useQueryClient();
   const inputRef = useRef<HTMLInputElement>(null);
   const generate = useServerFn(generateStudyKit);
   const [file, setFile] = useState<File | null>(null);
@@ -116,6 +122,13 @@ function Index() {
     if (inputRef.current) inputRef.current.value = "";
   };
 
+  const handleSignOut = async () => {
+    await queryClient.cancelQueries();
+    queryClient.clear();
+    await supabase.auth.signOut();
+    await navigate({ to: "/login", replace: true });
+  };
+
   return (
     <main className="min-h-screen overflow-hidden">
       <header className="mx-auto flex max-w-6xl items-center justify-between px-5 py-5 sm:px-8">
@@ -125,9 +138,14 @@ function Index() {
           </span>
           SnappyStudy <span className="text-primary">AI</span>
         </div>
-        <div className="hidden items-center gap-2 text-sm font-medium text-muted-foreground sm:flex">
-          <Sparkles className="size-4 text-primary" />
-          Study smarter, not longer
+        <div className="flex min-w-0 items-center gap-2 sm:gap-3">
+          <span className="hidden max-w-48 truncate text-sm font-medium text-muted-foreground sm:block">
+            {user.email}
+          </span>
+          <Button variant="outline" size="sm" onClick={handleSignOut}>
+            <LogOut />
+            <span className="hidden sm:inline">Sign out</span>
+          </Button>
         </div>
       </header>
 
