@@ -27,18 +27,50 @@ function chunkText(text: string) {
 }
 
 const StudyOutput = z.object({
-  summary: z.string(),
-  keyConcepts: z.array(z.object({ title: z.string(), explanation: z.string() })),
-  flashcards: z.array(z.object({ front: z.string(), back: z.string() })),
-  quiz: z.array(
-    z.object({
-      question: z.string(),
-      options: z.array(z.string()),
-      answer: z.string(),
-      explanation: z.string(),
-    }),
-  ),
-  explainLike15: z.string(),
+  documentIntelligence: z.object({
+    discipline: z.string(),
+    documentType: z.string(),
+    complexityLevel: z.string(),
+    prerequisiteKnowledge: z.array(z.string()),
+  }),
+  executiveSummary: z.string(),
+  learningRoadmap: z.array(z.object({
+    step: z.number(),
+    concept: z.string(),
+    whyThisFirst: z.string(),
+  })),
+  keyConcepts: z.array(z.object({
+    title: z.string(),
+    explanation: z.string(),
+    whyItMatters: z.string(),
+    commonMisconception: z.string(),
+  })),
+  essentialDefinitions: z.array(z.object({
+    term: z.string(),
+    definition: z.string(),
+  })),
+  flashcards: z.array(z.object({
+    front: z.string(),
+    back: z.string(),
+    difficulty: z.enum(["foundational", "intermediate", "advanced"]),
+  })),
+  quiz: z.array(z.object({
+    question: z.string(),
+    options: z.array(z.string()),
+    answer: z.string(),
+    explanation: z.string(),
+    difficulty: z.enum(["foundational", "intermediate", "advanced"]),
+  })),
+  commonMistakes: z.array(z.object({
+    mistake: z.string(),
+    correction: z.string(),
+  })),
+  practicalApplications: z.array(z.object({
+    scenario: z.string(),
+    howConceptApplies: z.string(),
+  })),
+  beginnerExplanation: z.string(),
+  examPreparationNotes: z.string(),
 });
 
 export type StudyResults = z.infer<typeof StudyOutput>;
@@ -75,7 +107,7 @@ export const generateStudyKit = createServerFn({ method: "POST" })
       model,
       output: Output.object({ schema: StudyOutput }),
       system:
-        "You are an expert study coach. Produce accurate, concise, student-friendly material using only the provided source. Quiz options must contain exactly four plausible choices and the answer must exactly match one option. Create 6-10 key concepts, 10 flashcards, and 8 quiz questions.",
+        "You are an expert study coach and curriculum designer. Analyze the source material and build a rich, student-friendly study kit. documentIntelligence: identify discipline, documentType, complexityLevel, and prerequisiteKnowledge. executiveSummary: 3–5 concise paragraphs. learningRoadmap: order concepts from foundational to advanced with rationale. keyConcepts: include title, explanation, whyItMatters, and commonMisconception. essentialDefinitions: list critical terms. flashcards and quiz: include difficulty (foundational/intermediate/advanced); quiz must have exactly four plausible options with answer matching one exactly. commonMistakes: frequent student errors and corrections. practicalApplications: real-world scenarios. beginnerExplanation: explain core ideas like talking to a curious 15-year-old. examPreparationNotes: focus areas for assessments. Use only the provided source. Create 6–10 key concepts, 8–12 flashcards, and 8–10 quiz questions.",
       prompt: `Create a complete study kit for ${data.fileName}.\n\nSOURCE MATERIAL:\n${source}`,
     });
 
