@@ -27,18 +27,50 @@ function chunkText(text: string) {
 }
 
 const StudyOutput = z.object({
-  summary: z.string(),
-  keyConcepts: z.array(z.object({ title: z.string(), explanation: z.string() })),
-  flashcards: z.array(z.object({ front: z.string(), back: z.string() })),
-  quiz: z.array(
-    z.object({
-      question: z.string(),
-      options: z.array(z.string()),
-      answer: z.string(),
-      explanation: z.string(),
-    }),
-  ),
-  explainLike15: z.string(),
+  documentIntelligence: z.object({
+    discipline: z.string(),
+    documentType: z.string(),
+    complexityLevel: z.string(),
+    prerequisiteKnowledge: z.array(z.string()),
+  }),
+  executiveSummary: z.string(),
+  learningRoadmap: z.array(z.object({
+    step: z.number(),
+    concept: z.string(),
+    whyThisFirst: z.string(),
+  })),
+  keyConcepts: z.array(z.object({
+    title: z.string(),
+    explanation: z.string(),
+    whyItMatters: z.string(),
+    commonMisconception: z.string(),
+  })),
+  essentialDefinitions: z.array(z.object({
+    term: z.string(),
+    definition: z.string(),
+  })),
+  flashcards: z.array(z.object({
+    front: z.string(),
+    back: z.string(),
+    difficulty: z.enum(["foundational", "intermediate", "advanced"]),
+  })),
+  quiz: z.array(z.object({
+    question: z.string(),
+    options: z.array(z.string()),
+    answer: z.string(),
+    explanation: z.string(),
+    difficulty: z.enum(["foundational", "intermediate", "advanced"]),
+  })),
+  commonMistakes: z.array(z.object({
+    mistake: z.string(),
+    correction: z.string(),
+  })),
+  practicalApplications: z.array(z.object({
+    scenario: z.string(),
+    howConceptApplies: z.string(),
+  })),
+  beginnerExplanation: z.string(),
+  examPreparationNotes: z.string(),
 });
 
 export type StudyResults = z.infer<typeof StudyOutput>;
